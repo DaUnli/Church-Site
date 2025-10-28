@@ -41,14 +41,6 @@ const Navbar = () => {
             Contact
           </Link>
         </li>
-        <li>
-          <Link
-            to="/login"
-            className="hover:text-yellow-600 transition-colors"
-          >
-            Admin
-          </Link>
-        </li>
       </ul>
     </nav>
   );
