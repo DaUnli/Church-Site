@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getInitials } from "../utils/getInitials";
+import { getInitials } from "../utils/Helper";
 import { MdDelete, MdEdit } from "react-icons/md";
 import axiosInstance from "../utils/axiosInstance";
 

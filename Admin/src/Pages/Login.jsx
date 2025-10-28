@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Password from "../components/Password";
-import Navbar from "../components/Navbar";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Footer from "../components/Footer";
@@ -11,22 +10,16 @@ AOS.init({ duration: 1200, once: true });
 
 const FORM_BACKGROUND_CLASS = "bg-black/50 backdrop-blur-sm";
 
-const Signup = () => {
-  const [name, setName] = React.useState("");
-  const [idNumber, setIdNumber] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState(null);
+const Login = () => {
+  const [idNumber, setIdNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  const handleSignup = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!name) {
-      setError("Please enter a valid name");
-      return;
-    }
     if (!idNumber) {
       setError("Please enter a valid ID Number");
       return;
@@ -39,8 +32,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const response = await axiosInstance.post("/create-admin", {
-        fullName: name,
+      const response = await axiosInstance.post("/login", {
         idNumber: idNumber,
         password: password,
       });
@@ -55,8 +47,8 @@ const Signup = () => {
         setError("Registration successful. Please log in.");
         setLoading(false);
         setTimeout(() => {
-          navigate("/login");
-        }, 1500);
+          navigate("/dashboard");
+        }, 1000);
         return;
       }
 
@@ -79,8 +71,6 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
-
       <div
         className="relative bg-cover bg-center bg-no-repeat h-screen flex items-center justify-center flex-grow py-20"
         style={{ backgroundImage: "url('/images/image.jpg')" }}
@@ -90,18 +80,10 @@ const Signup = () => {
         <div
           className={`relative z-10 w-full max-w-md p-8 rounded-lg ${FORM_BACKGROUND_CLASS} border-2 border-yellow-600 text-white shadow-2xl`}
         >
-          <form onSubmit={handleSignup} className="flex flex-col gap-5">
+          <form onSubmit={handleLogin} className="flex flex-col gap-5">
             <h4 className="text-3xl font-extrabold text-center mb-6 text-yellow-600">
-              MEMBER REGISTER
+              MEMBER LOGIN
             </h4>
-
-            <input
-              type="text"
-              placeholder="Fullname"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 rounded bg-white/10 border border-yellow-600 placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-yellow-600 transition"
-            />
 
             <input
               type="text"
@@ -115,7 +97,7 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              inputClass="w-full px-4 py-2 rounded bg-white/10 border border-yellow-400 placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 transition"
+              inputClass="w-full px-4 py-2 rounded bg-white/10 border border-yellow-600 placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-yellow-600 transition"
             />
 
             {error && (
@@ -133,16 +115,16 @@ const Signup = () => {
                   : "bg-yellow-600 text-gray-900 hover:bg-yellow-400 shadow-lg"
               }`}
             >
-              {loading ? "AUTHENTICATING..." : "REGISTER"}
+              {loading ? "AUTHENTICATING..." : "LOGIN"}
             </button>
 
             <p className="text-center text-gray-200">
-              Already have an account.{" "}
+              Don&apos;t have an account?{" "}
               <Link
-                to="/login"
+                to="/signup"
                 className="text-yellow-400 font-bold hover:text-yellow-300 transition"
               >
-                LOGIN
+                Register Here
               </Link>
             </p>
           </form>
@@ -154,4 +136,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
